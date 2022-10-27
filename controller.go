@@ -28,7 +28,7 @@ func FooControllerHandler(c *framework.Context) error {
 
 		// 这里做具体的业务
 		time.Sleep(10 * time.Second)
-		c.Json(200, "ok")
+		c.SetOkStatus().Json("ok")
 
 		// 新的 goroutine 结束时通过一个 finish 通道告知 父 goroutine
 		finish <- struct{}{}
@@ -40,7 +40,7 @@ func FooControllerHandler(c *framework.Context) error {
 		c.WriterMux().Lock()
 		defer c.WriterMux().Unlock()
 		log.Println(p)
-		c.Json(500, "panic")
+		c.SetStatus(500).Json("panic")
 	// 监听结束事件
 	case <-finish:
 		fmt.Println("finish")
@@ -48,7 +48,7 @@ func FooControllerHandler(c *framework.Context) error {
 	case <-durationCtx.Done():
 		c.WriterMux().Lock()
 		defer c.WriterMux().Unlock()
-		c.Json(500, "time out")
+		c.SetStatus(500).Json("time out")
 		c.SetHasTimeout()
 	}
 
