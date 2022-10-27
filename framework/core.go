@@ -64,9 +64,9 @@ func (c *Core) Delete(url string, handlers ...ControllerHandler) {
 }
 
 // Group 通用前缀
-//func (c *Core) Group(prefix string) IGroup {
-//	return NewGroup(c, prefix)
-//}
+func (c *Core) Group(prefix string) IGroup {
+	return NewGroup(c, prefix)
+}
 
 // FindRouteByRequest 匹配路由，如果没有匹配到，返回 nil
 func (c *Core) FindRouteByRequest(request *http.Request) *node {
