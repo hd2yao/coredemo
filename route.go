@@ -1,8 +1,8 @@
 package main
 
 import (
-	"goweb/framework"
-	"goweb/framework/middleware"
+	"github.com/haidongXX/coredemo/framework/gin"
+	"github.com/haidongXX/coredemo/framework/middleware"
 )
 
 /*
@@ -14,18 +14,18 @@ import (
 */
 
 // 注册路由规则
-func registerRouter(core *framework.Core) {
+func registerRouter(core *gin.Engine) {
 	// 需求1+2：静态路由 + HTTP方法匹配
-	core.Get("/user/login", middleware.Test3(), UserLoginController)
+	core.GET("/user/login", middleware.Test3(), UserLoginController)
 
 	// 需求3：批量通用前缀
 	subjectApi := core.Group("/subject")
 	{
 		// 动态路由
-		subjectApi.Delete("/:id", SubjectDelController)
-		subjectApi.Put("/:id", SubjectUpdateController)
-		subjectApi.Get("/:id", middleware.Test3(), SubjectGetController)
-		subjectApi.Get("/list/all", SubjectListController)
+		subjectApi.DELETE("/:id", SubjectDelController)
+		subjectApi.PUT("/:id", SubjectUpdateController)
+		subjectApi.GET("/:id", middleware.Test3(), SubjectGetController)
+		subjectApi.GET("/list/all", SubjectListController)
 
 		//subjectInnerApi := subjectApi.Group("/info")
 		//{

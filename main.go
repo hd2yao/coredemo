@@ -2,8 +2,8 @@ package main
 
 import (
 	"context"
-	"goweb/framework"
-	"goweb/framework/middleware"
+	"github.com/haidongXX/coredemo/framework/gin"
+	"github.com/haidongXX/coredemo/framework/middleware"
 	"log"
 	"net/http"
 	"os"
@@ -13,10 +13,9 @@ import (
 )
 
 func main() {
-	core := framework.NewCore()
+	core := gin.New()
 
-	// 为所有的路由都设置 Recovery 中间件
-	core.Use(middleware.Recovery())
+	core.Use(gin.Recovery())
 	core.Use(middleware.Cost())
 
 	registerRouter(core)
@@ -25,12 +24,12 @@ func main() {
 		Addr:    ":8888",
 	}
 
-	// 这个 goroutine 是启动服务的 goroutine
+	// 这个goroutine是启动服务的goroutine
 	go func() {
 		server.ListenAndServe()
 	}()
 
-	// 当前的 goroutine 等待信号量
+	// 当前的goroutine等待信号量
 	quit := make(chan os.Signal)
 	// 监控信号：SIGINT, SIGTERM, SIGQUIT
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
